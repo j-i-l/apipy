@@ -14,9 +14,12 @@ There will also be a command line tool that allows to directly run requests.
 
 ##Install
 
-To come...
+From source:
 
-    pyhton setup.py install #as usual
+    git clone https://github.com/j-i-l/pyapi.git
+    cd pyapi
+    python setup.py install
+
     
 ##Usage
 
