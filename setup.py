@@ -7,7 +7,7 @@ def readme():
     with open('README.md') as f:
         return f.read()
 
-setup(name = 'apipy',
+setup(name = 'pyapi',
       version = '0.1dev',
       description='A package to easy the interactions with the api of various websites.',
       #long_description='Long blabla',
@@ -19,17 +19,17 @@ setup(name = 'apipy',
                    'Topic :: Api interaction',
                    ],
       include_package_data=True,
-      url='https://github.com/j-i-l/apipy',
+      url='https://github.com/j-i-l/pyapi',
       author='j-i-l',
       author_email='simply.mail.to.j.i.l@gmail.com',
       license='MIT',
-      packages=['apipy'],
+      packages=['pyapi'],
       install_requires = ['requests'],
       test_suite='nose.collector',
       tests_require=['nose'],
       entry_points={
                     'console_scripts': [
-                                         'apipy_public_request=apipy.public_request:main'
+                                         'pyapi_public_request=pyapi.public_request:main'
                                        ],
                     },
       zip_safe=False)
