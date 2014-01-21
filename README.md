@@ -1,4 +1,4 @@
-#apipy
+#pyAPI
 
 This is a tiny python package intended to easy the interaction with api's of various sites.
 
