@@ -3,7 +3,7 @@
 
 # <codecell>
 
-import apipy
+import pyapi
 
 
 def main():
