@@ -8,7 +8,7 @@
 import requests
 #standard stuff (this is probably all available in requests, but 
 #i didn't bother looking for it so far.
-import urllib, hmac, hashlib
+import urllib
 ServerInfo = None
 ######################################################
 ## do the importing of the ServerAccount class here ##
