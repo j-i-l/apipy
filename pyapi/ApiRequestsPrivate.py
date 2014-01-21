@@ -3,6 +3,10 @@
 
 # <codecell>
 
+#this is probably all in requests ...
+import requests
+import time, hmac, hashlib, urllib
+
 from ApiRequests import Request
 ServerAccount = None
 ######################################################
@@ -29,7 +33,7 @@ class RequestPrivate(Request):
         """
             
         """
-        ApiRequests.__init__(self,)
+        Request.__init__(self,)
         self.Account = Account
         return None
     
@@ -39,12 +43,36 @@ class RequestPrivate(Request):
         """
         #don't like this solution somehow
         return str(int(round(time.time()*1000)))
+
+    def fetch(self, method, data = {}, **other_params):
+	"""
+	    Make a simple post request.
+	"""
+	data['method'] = method
+        data['nonce'] = self.nonce()
+	headers = {
+		   "Content-type": "application/x-www-form-urlencoded",
+                   "Key":self.Account.pub_key,
+		   "Sign": self._sign(data)
+		   }
+	s = requests.Session()
+	prep_r = self.request( 
+                              'POST', 
+                              self.privAddress,
+                              None,
+                              headers,
+                              data,
+                              **other_params
+                              )
+	return self.digest_response(s.send(prep_r),self._content_filter)
     
     def private_session(self, data, params = None, shedule = [],**other_params):
-        """
+        """ This is for later
             Create a requests.Session instance to run one or several 
                 requests.
             Arguments:
+		- data: the content of the post request. put the requested method and 
+		    parameters here.
                 - params: either a dict or a list of dicts with the request 
                     parameters. If if is a list it needs to have the same length
                     as shedule.
