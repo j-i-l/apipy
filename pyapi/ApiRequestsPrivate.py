@@ -7,7 +7,7 @@
 import requests
 import time, hmac, hashlib, urllib
 
-from ApiRequests import Request
+from ApiRequests import Request, ServerInfo
 ServerAccount = None
 ######################################################
 ## do the importing of the ServerAccount class here ##
@@ -29,11 +29,11 @@ if not ServerAccount:
 # <codecell>
 
 class RequestPrivate(Request):
-    def __init__(self, Account = ServerAccount()):
+    def __init__(self, Account = ServerAccount(), Info = ServerInfo()):
         """
             
         """
-        Request.__init__(self,)
+        Request.__init__(self, Info = Info)
         self.Account = Account
         return None
     
@@ -58,7 +58,7 @@ class RequestPrivate(Request):
 	s = requests.Session()
 	prep_r = self.request( 
                               'POST', 
-                              self.privAddress,
+                              self.Info.privAddress,
                               None,
                               headers,
                               data,
@@ -80,7 +80,9 @@ class RequestPrivate(Request):
                     could be different times, etc. NOT IMPLEMENTED YET -> ignore
         """
         http_method = "POST"
-        url = self.privDomain+self.privApiPath
+        #url = self.privDomain+self.privApiPath
+        #or
+        url = self.Info.privAddress
         headers = {
                    "Content-type": "application/x-www-form-urlencoded",
                    "Key":self.Account.pub_key

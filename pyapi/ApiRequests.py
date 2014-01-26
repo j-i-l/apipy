@@ -8,13 +8,13 @@
 import requests
 #standard stuff (this is probably all available in requests, but 
 #i didn't bother looking for it so far.
-import urllib
+import urllib, hmac, hashlib
 ServerInfo = None
 ######################################################
 ## do the importing of the ServerAccount class here ##
 ######################################################
 #from ... import ... as ServerInfo
-#from CryptsyInfo import CryptsyInfo as ServerInfo
+#from .CryptsyInfo import Info as ServerInfo
 if not ServerInfo:
     class ServerInfo():
         def __init__(self, pubAddress = None, **params):
@@ -80,13 +80,32 @@ class Request():
                                **other_params)
         return req.prepare()
     
+    def fetch(self, method, params = {}, **other_params):
+        """
+            Make a simple get request
+        """
+        params['method'] = method
+        s = requests.Session()
+        prep_request = self.request(
+                                    'GET',
+                                    self.Info.pubAddress,
+                                    params,
+                                    {},
+                                    {},
+                                    )
+        return self.digest_response(s.send(prep_request), self._content_filter)
+        
+        
+    
     #goes to public part if 
     def public_session(self, params = {}, **other_params):
         """
             This method makes a simple GET request with parameters
         """
         http_method = 'GET'
-        url = self.Info.pubDomain+self.Info.pubApiPath
+        #url = self.Info.pubDomain+self.Info.pubApiPath
+        #or
+        url = self.Info.pubAddress
         headers = {}
         data = {}
         prep_request = self.request(
@@ -144,11 +163,12 @@ class Request():
         ###-----------------------###
         ### This part is optional ###
         ###-----------------------###
-        if rest.pop('success') == 1:
-            return rest
+        print rest
+        if int(rest.pop('success')) == 1:
+            return rest[u'return']
         else:
             print rest
             raise ApiSuccessError('The server returns a valid response but the api failed to fullfil the request')
         ###-----------------------###
-        return rest['return']
+        return rest[u'return']
 
