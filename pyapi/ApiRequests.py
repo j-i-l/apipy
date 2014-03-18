@@ -80,15 +80,20 @@ class Request():
                                **other_params)
         return req.prepare()
     
-    def fetch(self, method, params = {}, **other_params):
+    def fetch(self, method = None, params = {}, **other_params):
         """
             Make a simple get request
         """
-        params['method'] = method
+        if method:
+            params['method'] = method
         s = requests.Session()
+        the_url = self.Info.pubAddress
+        if 'url_addons' in other_params:
+            the_url = the_url + '/'+('/').join(other_params['url_addons'])
+        print the_url
         prep_request = self.request(
                                     'GET',
-                                    self.Info.pubAddress,
+                                    the_url,
                                     params,
                                     {},
                                     {},
@@ -163,7 +168,9 @@ class Request():
         ###-----------------------###
         ### This part is optional ###
         ###-----------------------###
-        print rest
+        #print rest
+        if not 'success' in rest:
+            return rest
         if int(rest.pop('success')) == 1:
             return rest[u'return']
         else:
