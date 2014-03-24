@@ -1,13 +1,7 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
-
 from ApiRequests import Request
 from ApiRequestsPrivate import RequestPrivate 
 from ApiInfoStructure import InfoStructure
 
-# <codecell>
 
 class AccountStructure():
     def __init__(self, PlatformInfo, public_key = '', private_key = '',):

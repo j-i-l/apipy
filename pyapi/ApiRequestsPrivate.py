@@ -1,8 +1,3 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
-
 #this is probably all in requests ...
 import requests
 import time, hmac, hashlib, urllib
@@ -26,7 +21,6 @@ if not ServerAccount:
             self.priv_key = 'PUT YOUR SECRET HERE'
             return None
 
-# <codecell>
 
 class RequestPrivate(Request):
     def __init__(self, Account = ServerAccount(), Info = ServerInfo()):

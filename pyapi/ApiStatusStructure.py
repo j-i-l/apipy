@@ -1,22 +1,21 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
-
 from ApiRequests import Request
 import time
 
-# <codecell>
 
 class StatusStructure():
     def __init__(self,
                  PlatformInfo,
+                 keep_duration = 60*60 #keep for 1 hour
                  ):
         self._init_Request(PlatformInfo)
+        self.keep_duration = keep_duration
         self.MarketCurrent = {}
         self.TradesCurrent = {}
+        self.Trades = {} #potential longer than the Current version
         self.OrdersCurrent = {}
+        self.Orders = {} #potentially longer than the Current version
         self.TickersCurrent = {} #{marketID:(time,ticker)
+        self.Tickers = {}
         
         self.command_marketdata = '-'
         self.command_allmarketdata = '-'

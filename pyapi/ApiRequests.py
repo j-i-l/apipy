@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-# <nbformat>3.0</nbformat>
-
-# <codecell>
 
 #import time,json,datetime,httplib,decimal,os,pickle
 ##add dependencies to requests
@@ -45,7 +41,6 @@ if not ServerInfo:
                 self.privAddress = self.privDomain+self.privApiPath
             return None
 
-# <codecell>
 
 class ApiSuccessError(Exception):
     """
