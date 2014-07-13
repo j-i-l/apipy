@@ -1,10 +1,10 @@
 from ApiRequests import Request
 from ApiRequestsPrivate import RequestPrivate 
 from ApiInfoStructure import InfoStructure
-
+import time
 
 class AccountStructure():
-    def __init__(self, PlatformInfo, public_key = '', private_key = '',):
+    def __init__(self, PlatformInfo, public_key='', private_key='',):
         """
         This class should be a genuine class of an account on
             some platform. The idea is to write a specific class
@@ -14,12 +14,11 @@ class AccountStructure():
         """
         self.pub_key = public_key
         self.priv_key = private_key
-        self._init_Request(Platform = PlatformInfo)
+        self._init_Request(Platform=PlatformInfo)
         self.MyTrades = {}
         self.MyOrders = {}
         self.MyTransactions = {}
 
-        
         ##Those have to adapted to the specific platform
         self.command_account_info = ''
         self.command_market_info = ''
@@ -40,8 +39,8 @@ class AccountStructure():
         
     def _init_Requests(self, PlatfromInfo):
         #PlatformInfo = Info()
-        self.Request = RequestPrivate(Account = self, Info = PlatformInfo)
-        self.pubRequest = Request(Info = PlatformInfo)
+        self.Request = RequestPrivate(Account=self, Info=PlatformInfo)
+        self.pubRequest = Request(Info=PlatformInfo)
         return 0
     
     def update_Info(self,):
@@ -76,7 +75,7 @@ class AccountStructure():
                   }
         if self._order_possible(params):#check if funds are ok, etc.
             now = time.time()
-            order_id = self.Request.fetch(self.command_new_order, params = params)
+            order_id = self.Request.fetch(self.command_new_order, params=params)
             self.MyOpenOrders[order_id] = params
             self.MyOpenOrders[order_id][u'timestamp'] = now
         return 0
@@ -92,15 +91,15 @@ class AccountStructure():
     def CancelOrder(self, **orders):
         if self.parameter_order_id in orders:
             canceled_orders = self.Request.fetch(self.command_cancel_order,
-                                                 params = {
-                                                           self.parameter_order_id:orders[self.parameter_order_id]
-                                                           }
+                                                 params={
+                                                     self.parameter_order_id: orders[self.parameter_order_id]
+                                                 }
                                                  )
         if self.parameter_market_id in orders:#cancel all orders in a market(if possible by api)
             canceled_orders = self.Request.fetch(self.command_cancel_order,
-                                                 params = {
-                                                           self.parameter_market_id:orders[self.parameter_market_id]
-                                                           }
+                                                 params={
+                                                     self.parameter_market_id: orders[self.parameter_market_id]
+                                                 }
                                                  )
         if not len(orders.keys()):#no specifications -> cancel all orders
             all_canceled_orders = self.Request.fetch(self.command_cancel_all_orders)

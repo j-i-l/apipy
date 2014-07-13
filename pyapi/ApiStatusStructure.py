@@ -5,16 +5,16 @@ import time
 class StatusStructure():
     def __init__(self,
                  PlatformInfo,
-                 keep_duration = 60*60 #keep for 1 hour
+                 keep_duration=60*60  #keep for 1 hour
                  ):
         self._init_Request(PlatformInfo)
         self.keep_duration = keep_duration
         self.MarketCurrent = {}
         self.TradesCurrent = {}
-        self.Trades = {} #potential longer than the Current version
+        self.Trades = {}  #potential longer than the Current version
         self.OrdersCurrent = {}
-        self.Orders = {} #potentially longer than the Current version
-        self.TickersCurrent = {} #{marketID:(time,ticker)
+        self.Orders = {}  #potentially longer than the Current version
+        self.TickersCurrent = {}  #{marketID:(time,ticker)
         self.Tickers = {}
         
         self.command_marketdata = '-'
@@ -28,10 +28,10 @@ class StatusStructure():
         
         
     def _init_Request(self, PlatformInfo):
-        self.Request = Request(Info = PlatformInfo())
+        self.Request = Request(Info=PlatformInfo())
         return 0
     
-    def get_MarketCurrent(self, marketID = None, mod_url = False):
+    def get_MarketCurrent(self, marketID=None, mod_url=False):
         """
         Get the current market status
 
@@ -52,7 +52,7 @@ class StatusStructure():
         market = self.Request.fetch(**kwargs)
         return time.time(), market
     
-    def get_OrdersCurrent(self, marketID = None, mod_url = False):
+    def get_OrdersCurrent(self, marketID=None, mod_url=False):
         """
         Get the current market orders
 
@@ -73,7 +73,7 @@ class StatusStructure():
         orders = self.Request.fetch(**kwargs)
         return time.time(), orders
     
-    def get_Ticker(self, marketID = None, mod_url = False):
+    def get_Ticker(self, marketID=None, mod_url=False):
         """
         Get the latest Ticker
 
@@ -87,15 +87,16 @@ class StatusStructure():
         kwargs = {}
         if marketID:
             kwargs['method'] = self._check(self.command_marketticker)
-            kwargs['params'] = {self._check(self.parameter_marketID):marketID}
+            kwargs['params'] = {self._check(self.parameter_marketID): marketID}
         else:
             kwargs['method'] = self._check(self.command_allmarketticker)
         if mod_url:
             kwargs['url_addons'] = mod_url
         ticker = self.Request.fetch(**kwargs)
-        return time.time(),ticker
+        return time.time(), ticker
     
-    def _check(self, to_check):
+    @staticmethod
+    def _check(to_check):
         """
         This function checks whether a command or parameter is 
             defined or not. It raises a ValueError if it is not defined.
@@ -104,6 +105,3 @@ class StatusStructure():
             return to_check
         else:
             raise ValueError('This command or parameter is not defined')
-        
-    
-

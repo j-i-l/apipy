@@ -13,7 +13,7 @@ ServerInfo = None
 #from .CryptsyInfo import Info as ServerInfo
 if not ServerInfo:
     class ServerInfo():
-        def __init__(self, pubAddress = None, **params):
+        def __init__(self, pubAddress=None, **params):
             """
                 This is just some dummy class.
                 To make this work, please at least set the pubDomain and pubApiDomain.
@@ -39,7 +39,6 @@ if not ServerInfo:
                 self.pubAddress = self.pubDomain+self.pubApiPath
             if self.privDomain and self.privApiPath:
                 self.privAddress = self.privDomain+self.privApiPath
-            return None
 
 
 class ApiSuccessError(Exception):
@@ -62,7 +61,7 @@ class Request():
         self.Info = Info
         return None
     
-    def request(self,http_method, url, params, headers, data, **other_params):
+    def request(self, http_method, url, params, headers, data, **other_params):
         """
             check requests.Request class for details about **other_params
             This will return a requests.PreparedRequest object.
@@ -75,7 +74,7 @@ class Request():
                                **other_params)
         return req.prepare()
     
-    def fetch(self, method = None, params = {}, **other_params):
+    def fetch(self, method=None, params={}, **other_params):
         """
             Make a simple get request
         """
@@ -84,21 +83,21 @@ class Request():
         s = requests.Session()
         the_url = self.Info.pubAddress
         if 'url_addons' in other_params:
-            the_url = the_url + '/'+('/').join(other_params['url_addons'])
+            the_url = the_url + '/' + '/'.join(other_params['url_addons'])
         print the_url
         prep_request = self.request(
-                                    'GET',
-                                    the_url,
-                                    params,
-                                    {},
-                                    {},
-                                    )
+            'GET',
+            the_url,
+            params,
+            {},
+            {},
+            )
         return self.digest_response(s.send(prep_request), self._content_filter)
         
         
     
     #goes to public part if 
-    def public_session(self, params = {}, **other_params):
+    def public_session(self, params={}, **other_params):
         """
             This method makes a simple GET request with parameters
         """
@@ -109,17 +108,17 @@ class Request():
         headers = {}
         data = {}
         prep_request = self.request(
-                                    http_method,
-                                    url,
-                                    params,
-                                    headers,
-                                    data,
-                                    **other_params
-                                    )
+            http_method,
+            url,
+            params,
+            headers,
+            data,
+            **other_params
+        )
         session = requests.Session()
-        return self.digest_response(session.send(prep_request),self._content_filter)
+        return self.digest_response(session.send(prep_request), self._content_filter)
     
-    def digest_response(self, response, content_filter = None):
+    def digest_response(self, response, content_filter=None):
         """
             This function should digest the return of a request in a halfway intelligent
                 manner.
@@ -156,7 +155,7 @@ class Request():
     def _content_filter(self, returned_dict):
         """
             This function is designed to only return part of the content the server returns.
-            If left as is, the complete content in returend.
+            If left as is, the complete content in returned.
             
         """
         rest = returned_dict
@@ -170,7 +169,6 @@ class Request():
             return rest[u'return']
         else:
             print rest
-            raise ApiSuccessError('The server returns a valid response but the api failed to fullfil the request')
+            raise ApiSuccessError('The server returns a valid response but the api failed to fulfil the request')
         ###-----------------------###
         return rest[u'return']
-

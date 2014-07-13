@@ -13,5 +13,3 @@ class InfoStructure():
         self.pubAddress = self.pubDomain + self.pubApiPath
         self.privAddress = self.privDomain + self.privApiPath
         self.currenices = ()
-    
-
